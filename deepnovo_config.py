@@ -19,6 +19,19 @@ parser.add_argument("--train", dest="train", action="store_true")
 parser.add_argument("--search_denovo", dest="search_denovo", action="store_true")
 parser.add_argument("--valid", dest="valid", action="store_true")
 parser.add_argument("--test", dest="test", action="store_true")
+parser.add_argument("--mz_max", type=float, default=4000)
+parser.add_argument("--max_len", type=int, default=40)
+parser.add_argument("--input_spectrum_file_train", default="spectrums.mgf")
+parser.add_argument("--input_spectrum_file_valid", default="spectrums.mgf")
+parser.add_argument("--input_spectrum_file_test", default="spectrums.mgf")
+parser.add_argument("--input_feature_file_train", default="features_train.csv")
+parser.add_argument("--input_feature_file_valid", default="features_valid.csv")
+parser.add_argument("--input_feature_file_test", default="features_test.csv")
+parser.add_argument("--output_denovo_file", default="features_test.csv.deepnovo_denovo")
+parser.add_argument("--knapsack_file", default="knapsack.npy")
+parser.add_argument("--num_workers", default=6, type=int)
+parser.add_argument("--batch_size", default=32, type=int)
+
 
 parser.set_defaults(train=False)
 parser.set_defaults(search_denovo=False)
@@ -144,7 +157,8 @@ mass_AA_min = mass_AA["G"] # 57.02146
 WINDOW_SIZE = 10 # 10 bins
 print("WINDOW_SIZE ", WINDOW_SIZE)
 
-MZ_MAX = 3000.0
+# MZ_MAX = 3000.0
+MZ_MAX = args.mz_max
 
 MAX_NUM_PEAK = 500
 
@@ -161,7 +175,9 @@ PRECURSOR_MASS_PRECISION_TOLERANCE = 0.01
 AA_MATCH_PRECISION = 0.1
 
 # skip (x > MZ_MAX,MAX_LEN)
-MAX_LEN = 50 if args.search_denovo else 30
+# MAX_LEN = 50 if args.search_denovo else 30
+MAX_LEN = 50 if args.search_denovo else args.max_len
+
 print("MAX_LEN ", MAX_LEN)
 
 
@@ -192,8 +208,11 @@ print("num_units ", num_units)
 
 dropout_rate = 0.25
 
-batch_size = 32
-num_workers = 6
+# batch_size = 32
+batch_size = args.batch_size
+# num_workers = 6
+num_workers = args.num_workers
+
 print("batch_size ", batch_size)
 
 num_epoch = 20
@@ -221,20 +240,35 @@ print("max_gradient_norm ", max_gradient_norm)
 # ==============================================================================
 
 
-knapsack_file = "knapsack.npy"
+# knapsack_file = "knapsack.npy"
+knapsack_file = args.knapsack_file
 topk_output = 1
 # training/testing/decoding files
-input_spectrum_file_train = "ABRF_DDA/spectrums.mgf"
-input_feature_file_train = "ABRF_DDA/features.csv.identified.train.nodup"
-input_spectrum_file_valid = "ABRF_DDA/spectrums.mgf"
-input_feature_file_valid = "ABRF_DDA/features.csv.identified.valid.nodup"
-input_spectrum_file_test = "ABRF_DDA/spectrums.mgf"
-input_feature_file_test = "ABRF_DDA/features.csv.identified.test.nodup"
-# denovo files
-denovo_input_spectrum_file = "ABRF_DDA/spectrums.mgf"
-denovo_input_feature_file = "ABRF_DDA/features.csv.identified.test.nodup"
+# input_spectrum_file_train = "ABRF_DDA/spectrums.mgf"
+# input_feature_file_train = "ABRF_DDA/features.csv.identified.train.nodup"
+# input_spectrum_file_valid = "ABRF_DDA/spectrums.mgf"
+# input_feature_file_valid = "ABRF_DDA/features.csv.identified.valid.nodup"
+# input_spectrum_file_test = "ABRF_DDA/spectrums.mgf"
+# input_feature_file_test = "ABRF_DDA/features.csv.identified.test.nodup"
+# # denovo files
+# denovo_input_spectrum_file = "ABRF_DDA/spectrums.mgf"
+# denovo_input_feature_file = "ABRF_DDA/features.csv.identified.test.nodup"
+# training/testing/decoding files
 
-denovo_output_file = denovo_input_feature_file + ".deepnovo_denovo"
+input_spectrum_file_train = args.input_spectrum_file_train
+input_feature_file_train = args.input_feature_file_train
+input_spectrum_file_valid = args.input_feature_file_valid
+input_feature_file_valid = args.input_feature_file_valid
+input_spectrum_file_test = args.input_spectrum_file_test
+input_feature_file_test = args.input_feature_file_test
+
+# denovo files
+denovo_input_spectrum_file = args.input_spectrum_file_test
+denovo_input_feature_file = args.input_feature_file_test
+
+
+# denovo_output_file = denovo_input_feature_file + ".deepnovo_denovo"
+denovo_output_file = args.output_denovo_file
 
 predicted_format = "deepnovo"
 target_file = denovo_input_feature_file
