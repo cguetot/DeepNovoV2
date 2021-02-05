@@ -257,7 +257,7 @@ topk_output = 1
 
 input_spectrum_file_train = args.input_spectrum_file_train
 input_feature_file_train = args.input_feature_file_train
-input_spectrum_file_valid = args.input_feature_file_valid
+input_spectrum_file_valid = args.input_spectrum_file_valid
 input_feature_file_valid = args.input_feature_file_valid
 input_spectrum_file_test = args.input_spectrum_file_test
 input_feature_file_test = args.input_feature_file_test
