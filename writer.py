@@ -49,9 +49,9 @@ class DenovoWriter(object):
         if searched_sequence.sequence:
             predicted_sequence = ','.join([deepnovo_config.vocab_reverse[aa_id] for
                                            aa_id in searched_sequence.sequence])
-            predicted_score = "{:.2f}".format(searched_sequence.score)
+            predicted_score = "{:.4f}".format(searched_sequence.score)
             predicted_score_max = predicted_score
-            predicted_position_score = ','.join(['{0:.2f}'.format(x) for x in searched_sequence.position_score])
+            predicted_position_score = ','.join(['{0:.4f}'.format(x) for x in searched_sequence.position_score])
             protein_access_id = 'DENOVO'
         else:
             predicted_sequence = ""
