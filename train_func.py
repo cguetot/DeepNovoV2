@@ -11,9 +11,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-forward_model_save_name = 'forward_deepnovo.pth'
-backward_model_save_name = 'backward_deepnovo.pth'
-init_net_save_name = 'init_net.pth'
+forward_model_save_name = deepnovo_config.forward_model_save_name  # 'forward_deepnovo.pth'
+backward_model_save_name = deepnovo_config.backward_model_save_name  # 'backward_deepnovo.pth'
+init_net_save_name = deepnovo_config.init_net_save_name  # 'init_net.pth'
 
 logger.info(f"using device: {device}")
 

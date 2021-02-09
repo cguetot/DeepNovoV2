@@ -5,9 +5,9 @@ import torch.nn.functional as F
 import deepnovo_config
 from enum import Enum
 
-
+gpu_id = deepnovo_config.gpuid
 activation_func = F.relu
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else "cpu")
 num_units = deepnovo_config.num_units
 
 

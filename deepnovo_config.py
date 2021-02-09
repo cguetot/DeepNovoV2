@@ -31,6 +31,10 @@ parser.add_argument("--output_denovo_file", default="features_test.csv.deepnovo_
 parser.add_argument("--knapsack_file", default="knapsack.npy")
 parser.add_argument("--num_workers", default=6, type=int)
 parser.add_argument("--batch_size", default=32, type=int)
+parser.add_argument("--forward_model_save_name", default="forward_deepnovo.pth")
+parser.add_argument("--backward_model_save_name", default='backward_deepnovo.pth')
+parser.add_argument("--init_net_save_name", default='init_net.pth')
+parser.add_argument("--gpuid", default=0, type=int)
 
 
 parser.set_defaults(train=False)

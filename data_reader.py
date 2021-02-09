@@ -149,7 +149,8 @@ class DeepNovoTrainDataset(Dataset):
                     skipped_by_mass += 1
                     logger.debug(f"{line[seq_index]} skipped by mass")
                     continue
-                if len(peptide) >= deepnovo_config.MAX_LEN:
+                if len(peptide) > deepnovo_config.MAX_LEN:
+                    # if len(peptide) >= deepnovo_config.MAX_LEN:
                     skipped_by_length += 1
                     logger.debug(f"{line[seq_index]} skipped by length")
                     continue
