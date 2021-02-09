@@ -47,6 +47,11 @@ args = parser.parse_args()
 train_dir = args.train_dir
 use_lstm = True
 
+forward_model_save_name = args.forward_model_save_name
+backward_model_save_name = args.backward_model_save_name
+init_net_save_name = args.init_net_save_name
+gpuid = args.gpuid
+
 # ==============================================================================
 # GLOBAL VARIABLES for VOCABULARY
 # ==============================================================================
