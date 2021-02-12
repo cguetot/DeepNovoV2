@@ -31,6 +31,7 @@ parser.add_argument("--output_denovo_file", default="features_test.csv.deepnovo_
 parser.add_argument("--knapsack_file", default="knapsack.npy")
 parser.add_argument("--num_workers", default=6, type=int)
 parser.add_argument("--batch_size", default=32, type=int)
+parser.add_argument("--steps_per_validation", default=300, type=int)
 parser.add_argument("--forward_model_save_name", default="forward_deepnovo.pth")
 parser.add_argument("--backward_model_save_name", default='backward_deepnovo.pth')
 parser.add_argument("--init_net_save_name", default='init_net.pth')
@@ -237,7 +238,7 @@ print("valid_stack_size ", valid_stack_size)
 print("test_stack_size ", test_stack_size)
 print("decode_stack_size ", decode_stack_size)
 
-steps_per_validation = 300  # 100 # 2 # 4 # 200
+steps_per_validation = args.steps_per_validation  # 300  # 100 # 2 # 4 # 200
 print("steps_per_validation ", steps_per_validation)
 
 max_gradient_norm = 5.0

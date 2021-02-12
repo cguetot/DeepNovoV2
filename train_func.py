@@ -60,6 +60,9 @@ def build_model(training=True):
 
     :return:
     """
+    if training:
+        os.makedirs(deepnovo_config.train_dir, exist_ok=True)
+
     forward_deepnovo = DeepNovoModel()
     backward_deepnovo = DeepNovoModel()
     if deepnovo_config.use_lstm:
@@ -190,7 +193,13 @@ def train():
     train_set = DeepNovoTrainDataset(deepnovo_config.input_feature_file_train,
                                      deepnovo_config.input_spectrum_file_train)
     num_train_features = len(train_set)
+    # steps_per_validation = deepnovo_config.steps_per_validation
     steps_per_epoch = int(num_train_features / deepnovo_config.batch_size)
+
+    if steps_per_epoch < deepnovo_config.steps_per_validation:
+        deepnovo_config.steps_per_validation = int((steps_per_epoch-2)/2)
+        logging.info(f"steps_per_validation changed to {deepnovo_config.steps_per_validation} prevent an error")
+
     logger.info(f"{steps_per_epoch} steps per epoch")
     train_data_loader = torch.utils.data.DataLoader(dataset=train_set,
                                                     batch_size=deepnovo_config.batch_size,
