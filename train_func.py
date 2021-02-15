@@ -197,7 +197,10 @@ def train():
     steps_per_epoch = int(num_train_features / deepnovo_config.batch_size)
 
     if steps_per_epoch < deepnovo_config.steps_per_validation:
-        deepnovo_config.steps_per_validation = int((steps_per_epoch-2)/2)
+        # deepnovo_config.steps_per_validation = int((steps_per_epoch-2)/2)
+        deepnovo_config.steps_per_validation = steps_per_epoch - 2
+        if deepnovo_config.steps_per_validation < 1 :
+            deepnovo_config.steps_per_validation = 1
         logging.info(f"steps_per_validation changed to {deepnovo_config.steps_per_validation} prevent an error")
 
     logger.info(f"{steps_per_epoch} steps per epoch")
