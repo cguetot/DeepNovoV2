@@ -359,13 +359,30 @@ class IonCNNDenovo(object):
                 sequence_mass = sum(deepnovo_config.mass_ID[x] for x in sequence)
                 sequence_mass += deepnovo_config.mass_ID[deepnovo_config.GO_ID] + deepnovo_config.mass_ID[
                     deepnovo_config.EOS_ID]
-                if abs(sequence_mass - precursor_mass) <= deepnovo_config.PRECURSOR_MASS_PRECISION_TOLERANCE:
+                if 1000000*(abs(sequence_mass - precursor_mass) / precursor_mass) <= deepnovo_config.PRECURSOR_MASS_PPM:
+                # if abs(sequence_mass - precursor_mass) <= deepnovo_config.PRECURSOR_MASS_PRECISION_TOLERANCE:
                     logger.debug(f"sequence {sequence} of feature "
                                  f"{feature_dp_batch[feature_index].original_dda_feature.feature_id} refined")
                     refine_batch[feature_index].append(beam_search_sequence)
         predicted_batch = []
         for feature_index in range(feature_batch_size):
             candidate_list = refine_batch[feature_index]
+
+            if candidate_list:
+                for candidate_sequence in candidate_list:
+                    denovo_result = DenovoResult(
+                        dda_feature=feature_dp_batch[feature_index].original_dda_feature,
+                        best_beam_search_sequence=candidate_sequence
+                    )
+                    predicted_batch.append(denovo_result)
+            else:
+                predicted_batch.append( BeamSearchedSequence(
+                    sequence=[],
+                    position_score=[],
+                    score=-float('inf')
+                ))
+
+            """
             if not candidate_list:
                 best_beam_search_sequence = BeamSearchedSequence(
                     sequence=[],
@@ -381,6 +398,7 @@ class IonCNNDenovo(object):
                 best_beam_search_sequence=best_beam_search_sequence
             )
             predicted_batch.append(denovo_result)
+            """
         return predicted_batch
 
     def _search_denovo_batch(self, feature_dp_batch: list, model_wrapper: InferenceModelWrapper) -> list:

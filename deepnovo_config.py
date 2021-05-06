@@ -30,6 +30,7 @@ parser.add_argument("--input_feature_file_test", default="features_test.csv")
 parser.add_argument("--output_denovo_file", default="features_test.csv.deepnovo_denovo")
 parser.add_argument("--knapsack_file", default="knapsack.npy")
 parser.add_argument("--num_workers", default=6, type=int)
+parser.add_argument("--precursor_mass_ppm", default=10, type=float)
 parser.add_argument("--batch_size", default=32, type=int)
 parser.add_argument("--steps_per_validation", default=300, type=int)
 parser.add_argument("--forward_model_save_name", default="forward_deepnovo.pth")
@@ -178,7 +179,8 @@ KNAPSACK_MASS_PRECISION_TOLERANCE = 100 # 0.01 Da
 num_position = 0
 
 PRECURSOR_MASS_PRECISION_TOLERANCE = 0.01
-
+PRECURSOR_MASS_PPM = args.precursor_mass_ppm
+# precursor_mass_ppm = 5
 # ONLY for accuracy evaluation
 #~ PRECURSOR_MASS_PRECISION_INPUT_FILTER = 0.01
 #~ PRECURSOR_MASS_PRECISION_INPUT_FILTER = 1000
