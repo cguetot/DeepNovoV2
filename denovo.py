@@ -376,11 +376,16 @@ class IonCNNDenovo(object):
                     )
                     predicted_batch.append(denovo_result)
             else:
-                predicted_batch.append( BeamSearchedSequence(
+                candidate_sequence = BeamSearchedSequence(
                     sequence=[],
                     position_score=[],
                     score=-float('inf')
-                ))
+                )
+                denovo_result = DenovoResult(
+                        dda_feature=feature_dp_batch[feature_index].original_dda_feature,
+                        best_beam_search_sequence=candidate_sequence
+                    )
+                predicted_batch.append(denovo_result)
 
             """
             if not candidate_list:
