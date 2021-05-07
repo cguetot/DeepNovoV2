@@ -351,6 +351,8 @@ class IonCNNDenovo(object):
         feature_batch_size = len(feature_dp_batch)
 
         refine_batch = [[] for x in range(feature_batch_size)]
+        # precursor_mass_calc = {}
+
         for feature_index in range(feature_batch_size):
             precursor_mass = feature_dp_batch[feature_index].original_dda_feature.mass
             candidate_list = top_candidate_batch[feature_index]
@@ -359,7 +361,8 @@ class IonCNNDenovo(object):
                 sequence_mass = sum(deepnovo_config.mass_ID[x] for x in sequence)
                 sequence_mass += deepnovo_config.mass_ID[deepnovo_config.GO_ID] + deepnovo_config.mass_ID[
                     deepnovo_config.EOS_ID]
-                if 1000000*(abs(sequence_mass - precursor_mass) / precursor_mass) <= deepnovo_config.PRECURSOR_MASS_PPM:
+                precursor_mass_error_ppm = 1000000*(abs(sequence_mass - precursor_mass) / precursor_mass)
+                if precursor_mass_error_ppm <= deepnovo_config.PRECURSOR_MASS_PPM:
                 # if abs(sequence_mass - precursor_mass) <= deepnovo_config.PRECURSOR_MASS_PRECISION_TOLERANCE:
                     logger.debug(f"sequence {sequence} of feature "
                                  f"{feature_dp_batch[feature_index].original_dda_feature.feature_id} refined")

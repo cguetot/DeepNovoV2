@@ -11,7 +11,7 @@ from train_func import train, build_model, validation, perplexity
 from data_reader import DeepNovoDenovoDataset, collate_func, DeepNovoTrainDataset
 from model import InferenceModelWrapper
 from denovo import IonCNNDenovo
-from writer import DenovoWriter
+from writer import DenovoWriter2 as DenovoWriter
 import deepnovo_worker_test
 from deepnovo_dia_script_select import find_score_cutoff
 logger = logging.getLogger(__name__)
