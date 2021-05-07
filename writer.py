@@ -85,8 +85,9 @@ class DenovoWriter2(object):
                        "predicted_score",
                        "predicted_position_score",
                        "precursor_mz",
-                       "precursor_mz_calc",
-                       "precursor_mz_error_ppm",
+                       "MH+1_exp",
+                       "MH+1_calc",
+                       "error_ppm",
                        "precursor_charge",
                        "protein_access_id",
                        "scan_list_middle",
@@ -109,6 +110,7 @@ class DenovoWriter2(object):
         feature_area = dda_original_feature.feature_area
         precursor_mz = str(dda_original_feature.mz)
         precursor_charge = str(dda_original_feature.z)
+        precursor_mass = dda_original_feature.mass
         scan_list_middle = dda_original_feature.scan
         scan_list_original = dda_original_feature.scan
         if searched_sequence.sequence:
@@ -118,27 +120,27 @@ class DenovoWriter2(object):
             predicted_score_max = predicted_score
             predicted_position_score = ','.join(['{0:.4f}'.format(x) for x in searched_sequence.position_score])
             protein_access_id = 'DENOVO'
-            predicted_precursor_mz = sum(deepnovo_config.mass_ID[x] for x in searched_sequence.sequence)
-            predicted_precursor_mz += deepnovo_config.mass_ID[deepnovo_config.GO_ID] + deepnovo_config.mass_ID[
+            predicted_precursor_mass = sum(deepnovo_config.mass_ID[x] for x in searched_sequence.sequence)
+            predicted_precursor_mass += deepnovo_config.mass_ID[deepnovo_config.GO_ID] + deepnovo_config.mass_ID[
                     deepnovo_config.EOS_ID]
-            precursor_mz_error = 1000000*(abs(predicted_precursor_mz - dda_original_feature.mz) / dda_original_feature.mz)
-
+            error_ppm = 1000000*(abs(predicted_precursor_mass - precursor_mass) / precursor_mass)
         else:
             predicted_sequence = ""
             predicted_score = ""
             predicted_score_max = ""
             predicted_position_score = ""
             protein_access_id = ""
-            predicted_precursor_mz = ""
-            precursor_mz_error = ""
+            predicted_precursor_mass = ""
+            error_ppm = ""
         predicted_row = "\t".join([feature_id,
                                    feature_area,
                                    predicted_sequence,
                                    predicted_score,
                                    predicted_position_score,
                                    precursor_mz,
-                                   predicted_precursor_mz,
-                                   precursor_mz_error,
+                                   str(precursor_mass),
+                                   str(predicted_precursor_mass),
+                                   str(error_ppm),
                                    precursor_charge,
                                    protein_access_id,
                                    scan_list_middle,
