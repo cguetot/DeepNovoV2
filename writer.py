@@ -123,7 +123,7 @@ class DenovoWriter2(object):
             predicted_precursor_mass = sum(deepnovo_config.mass_ID[x] for x in searched_sequence.sequence)
             predicted_precursor_mass += deepnovo_config.mass_ID[deepnovo_config.GO_ID] + deepnovo_config.mass_ID[
                     deepnovo_config.EOS_ID]
-            error_ppm = 1000000*(abs(predicted_precursor_mass - precursor_mass) / precursor_mass)
+            error_ppm = 1000000*(abs(predicted_precursor_mass - precursor_mass) / predicted_precursor_mass)
         else:
             predicted_sequence = ""
             predicted_score = ""

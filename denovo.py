@@ -361,7 +361,7 @@ class IonCNNDenovo(object):
                 sequence_mass = sum(deepnovo_config.mass_ID[x] for x in sequence)
                 sequence_mass += deepnovo_config.mass_ID[deepnovo_config.GO_ID] + deepnovo_config.mass_ID[
                     deepnovo_config.EOS_ID]
-                precursor_mass_error_ppm = 1000000*(abs(sequence_mass - precursor_mass) / precursor_mass)
+                precursor_mass_error_ppm = 1000000*(abs(sequence_mass - precursor_mass) / sequence_mass)
                 if precursor_mass_error_ppm <= deepnovo_config.PRECURSOR_MASS_PPM:
                 # if abs(sequence_mass - precursor_mass) <= deepnovo_config.PRECURSOR_MASS_PRECISION_TOLERANCE:
                     logger.debug(f"sequence {sequence} of feature "
